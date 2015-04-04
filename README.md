@@ -1,4 +1,4 @@
-# hostname-is-private
+# hostname-is-private [![Build Status](https://drone.io/github.com/FGRibreau/hostname-is-private/status.png)](https://drone.io/github.com/FGRibreau/hostname-is-private/latest)
 
 
 > Check whether or not an hostname refers to a private IP

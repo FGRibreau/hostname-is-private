@@ -22,7 +22,7 @@ var shouldNotBePrivate = curry1(function (hostname, done) {
 
 
 describe('isPrivate', function () {
-  ['localhost', '0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net'].forEach(function (hostname) {
+  ['0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net'].forEach(function (hostname) {
     it('should consider ' + hostname + ' private', shouldBePrivate(hostname));
   });
 
