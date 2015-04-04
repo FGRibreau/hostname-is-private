@@ -1,0 +1,27 @@
+{
+  "name": "hostname-is-private",
+  "version": "1.0.0",
+  "description": "Check whether or not an hostname refer to a private IP",
+  "main": "hostname-is-private.js",
+  "scripts": {
+    "test": "mocha hostname-is-private.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FGRibreau/hostname-is-private.git"
+  },
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FGRibreau/hostname-is-private/issues"
+  },
+  "homepage": "https://github.com/FGRibreau/hostname-is-private",
+  "dependencies": {
+    "ip": "^0.3.2"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "lodash": "^3.6.0",
+    "mocha": "^2.2.1"
+  }
+}
