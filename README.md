@@ -15,7 +15,7 @@ npm install hostname-is-private
 
 ## Usage
 
-`isPrivate(hostname: {String}, f: (err : {Error,Null}, isPrivate: {Boolean}))`
+#### `isPrivate(hostname: {String}, f: (err : {Error,Null}, isPrivate: {Boolean}))`
 
 ```javascript
 var isPrivate = require('hostname-is-private').isPrivate;
@@ -33,7 +33,7 @@ isPrivate('google.com', function(err, isPrivate){
 });
 ```
 
-`isPrivateIncludingPublicIp(hostname: {String}, f: (err : {Error,Null}, isPrivateIncludingPublicIp: {Boolean}))`
+#### `isPrivateIncludingPublicIp(hostname: {String}, f: (err : {Error,Null}, isPrivateIncludingPublicIp: {Boolean}))`
 
 ```javascript
 var isPrivateIncludingPublicIp = require('hostname-is-private').isPrivateIncludingPublicIp;
