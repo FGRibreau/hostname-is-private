@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha hostname-is-private.test.js"
   },
+  "keywords": ["hostname", "host", "ip", "private", "network"],
   "repository": {
     "type": "git",
     "url": "https://github.com/FGRibreau/hostname-is-private.git"
