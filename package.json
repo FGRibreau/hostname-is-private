@@ -4,7 +4,7 @@
   "description": "Check whether or not an hostname refer to a private IP",
   "main": "hostname-is-private.js",
   "scripts": {
-    "test": "mocha hostname-is-private.test.js"
+    "test": "mocha hostname-is-private.test.js && npm install check-build@latest -g && check-build"
   },
   "repository": {
     "type": "git",
