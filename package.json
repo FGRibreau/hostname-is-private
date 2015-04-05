@@ -1,6 +1,6 @@
 {
   "name": "hostname-is-private",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Check whether or not an hostname refer to a private IP",
   "main": "hostname-is-private.js",
   "scripts": {
