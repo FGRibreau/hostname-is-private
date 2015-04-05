@@ -66,13 +66,14 @@ function checkIfAddressesArePrivateIncludingPublicIp(addresses, f) {
 
 function getPublicIP(f) {
   if (getPublicIP.PUBLIC_IP) {
-    f(null, getPublicIP.PUBLIC_IP);
+    return f(null, getPublicIP.PUBLIC_IP);
   }
 
   publicIp(function (err, ip) {
     if (err) {
       return f(err);
     }
+
     getPublicIP.PUBLIC_IP = ip;
     getPublicIP(f);
   });
