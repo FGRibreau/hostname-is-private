@@ -11,12 +11,12 @@ var _ = require('lodash');
  */
 var isPrivate = _.curry(function (checker, hostname, f) {
   try {
-    dns.resolve(hostname, function (err, addresses) {
+    dns.lookup(hostname, function (err, addr) {
       if (err) {
         return setImmediate(f, err);
       }
 
-      return checker(addresses, f);
+      return checker(addr, f);
     });
   } catch (err) {
     setImmediate(f, err);
@@ -28,19 +28,19 @@ function IPisPrivate(ipAddr) {
 }
 
 /**
- * @param  {Array} addresses array of ip addr
+ * @param  {String} addr array of ip addr
  * @param  {Function} f(err, isPrivate) isPrivate will be `true` if at least one addr is private
  */
-function checkIfAddressesArePrivate(addresses, f) {
-  setImmediate(f, null, addresses.some(IPisPrivate));
+function checkIfAddressesArePrivate(addr, f) {
+  setImmediate(f, null, IPisPrivate(addr));
 }
 
 /**
- * @param  {Array} addresses array of ip addr
+ * @param  {String} addr array of ip addr
  * @param  {Function} f(err, isPrivate) isPrivate will be `true` if at least one addr is private or is the public server IP
  */
-function checkIfAddressesArePrivateIncludingPublicIp(addresses, f) {
-  checkIfAddressesArePrivate(addresses, function (err, isPrivate) {
+function checkIfAddressesArePrivateIncludingPublicIp(addr, f) {
+  checkIfAddressesArePrivate(addr, function (err, isPrivate) {
     if (err) {
       return setImmediate(f, err);
     }
@@ -57,9 +57,7 @@ function checkIfAddressesArePrivateIncludingPublicIp(addresses, f) {
         return setImmediate(f, err);
       }
 
-      f(null, addresses.some(function (ip) {
-        return ip === publicIp;
-      }));
+      f(null, addr === publicIp);
     });
   });
 }

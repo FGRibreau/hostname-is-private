@@ -25,11 +25,11 @@ var shouldNotBePrivate = curry1(function (hostname, done) {
 
 
 describe('isPrivate', function () {
-  ['0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net'].forEach(function (hostname) {
+  ['0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net', '127.0.0.1'].forEach(function (hostname) {
     it('should consider ' + hostname + ' private', shouldBePrivate(hostname));
   });
 
-  ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io'].forEach(function (hostname) {
+  ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io', '8.8.8.8'].forEach(function (hostname) {
     it('should not consider ' + hostname + ' private', shouldNotBePrivate(hostname));
   });
 });
