@@ -15,10 +15,30 @@ npm install hostname-is-private
 
 ## Usage
 
+`isPrivate(hostname: {String}, f: (err : {Error,Null}, isPrivate: {Boolean}))`
+
 ```javascript
-var isPrivate = require('hostname-is-private');
+var isPrivate = require('hostname-is-private').isPrivate;
 
 isPrivate('127.0.0.1.xip.io', function(err, isPrivate){
+    console.log(err === null, isPrivate == true);
+});
+
+isPrivate('localhost', function(err, isPrivate){
+    console.log(err === null, isPrivate === true);
+});
+
+isPrivate('google.com', function(err, isPrivate){
+    console.log(err === null, isPrivate === false);
+});
+```
+
+`isPrivateIncludingPublicIp(hostname: {String}, f: (err : {Error,Null}, isPrivateIncludingPublicIp: {Boolean}))`
+
+```javascript
+var isPrivateIncludingPublicIp = require('hostname-is-private').isPrivateIncludingPublicIp;
+
+isPrivateIncludingPublicIp('YOUR-PUBLIC-IP.xip.io', function(err, isPrivate){
     console.log(err === null, isPrivate == true);
 });
 
