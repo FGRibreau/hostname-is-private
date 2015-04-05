@@ -18,7 +18,6 @@ set -e
 # Any subsequent commands which fail will cause the shell script to exit immediately
 setopt extended_glob;
 
-# Allow extended globbing (see fellow)
 npm test
 
 npm install check-build -g
