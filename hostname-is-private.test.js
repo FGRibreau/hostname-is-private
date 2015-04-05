@@ -2,14 +2,17 @@
 
 var t = require('chai').assert;
 var _ = require('lodash');
-var isPrivate = require('./');
+var publicIp = require('public-ip');
+
+var isPrivate = require('./').isPrivate;
+var isPrivateIncludingPublicIp = require('./').isPrivateIncludingPublicIp;
 
 var shouldBePrivate = curry1(function (hostname, done) {
   isPrivate(hostname, function (err, isPrivate) {
     t.strictEqual(err, null);
     t.strictEqual(isPrivate, true);
     done();
-  })
+  });
 });
 
 var shouldNotBePrivate = curry1(function (hostname, done) {
@@ -17,7 +20,7 @@ var shouldNotBePrivate = curry1(function (hostname, done) {
     t.strictEqual(err, null);
     t.strictEqual(isPrivate, false);
     done();
-  })
+  });
 });
 
 
@@ -28,6 +31,19 @@ describe('isPrivate', function () {
 
   ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io'].forEach(function (hostname) {
     it('should not consider ' + hostname + ' private', shouldNotBePrivate(hostname));
+  });
+});
+
+describe('.isPrivateIncludingPublicIp', function () {
+  it('should consider specified public IP as private too', function (done) {
+    publicIp(function (err, ip) {
+      t.strictEqual(err, null);
+      isPrivateIncludingPublicIp(ip + '.xip.io', function (err, isPrivate) {
+        t.strictEqual(err, null);
+        t.strictEqual(isPrivate, true);
+        done();
+      });
+    });
   });
 });
 
