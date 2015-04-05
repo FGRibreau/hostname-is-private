@@ -34,3 +34,5 @@ isPrivate('google.com', function(err, isPrivate){
 ## How it works
 
 It uses [dns.resolve](https://nodejs.org/api/all.html#all_dns_resolve_hostname_rrtype_callback) underneath and [ip.isPrivate](https://github.com/indutny/node-ip#ip) to check if the resolved IP is private (or not).
+
+## [Changelog](/CHANGELOG.md)
