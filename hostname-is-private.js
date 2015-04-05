@@ -75,7 +75,8 @@ function getPublicIP(f) {
     }
 
     getPublicIP.PUBLIC_IP = ip;
-    getPublicIP(f);
+
+    f(null, getPublicIP.PUBLIC_IP);
   });
 }
 
