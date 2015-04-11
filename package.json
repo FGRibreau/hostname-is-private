@@ -4,7 +4,7 @@
   "description": "Check whether or not an hostname refer to a private IP",
   "main": "hostname-is-private.js",
   "scripts": {
-    "test": "mocha -t 5000 hostname-is-private.test.js"
+    "test": "mocha -t 10000 hostname-is-private.test.js"
   },
   "keywords": [
     "hostname",
