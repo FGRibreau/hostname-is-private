@@ -3,6 +3,7 @@ var ip = require('ip');
 var dns = require('dns');
 var publicIp = require('public-ip');
 var _ = require('lodash');
+var isIP = require('isipaddress');
 
 /**
  * Check whether or not an hostname refers to a private IP
@@ -10,6 +11,13 @@ var _ = require('lodash');
  * @param  {Function} f(err: {error,null}, isPrivate: {boolean})
  */
 var isPrivate = _.curry(function (checker, hostname, f) {
+  var ipPart = extractIpv4(hostname);
+
+  if (isIP.v4(ipPart)) {
+    // it's an IPV4 and it's private don't go further
+    return f(null, IPisPrivate(ipPart));
+  }
+
   try {
     dns.lookup(hostname, function (err, addr) {
       if (err) {
@@ -22,6 +30,10 @@ var isPrivate = _.curry(function (checker, hostname, f) {
     setImmediate(f, err);
   }
 });
+
+function extractIpv4(hostname) {
+  return String(hostname).split('\\')[0].split(':')[0];
+}
 
 function IPisPrivate(ipAddr) {
   return ipAddr === '0.0.0.0' || ip.isPrivate(ipAddr);

@@ -7,30 +7,46 @@ var publicIp = require('public-ip');
 var isPrivate = require('./').isPrivate;
 var isPrivateIncludingPublicIp = require('./').isPrivateIncludingPublicIp;
 
-var shouldBePrivate = curry1(function (hostname, done) {
-  isPrivate(hostname, function (err, isPrivate) {
-    t.strictEqual(err, null);
-    t.strictEqual(isPrivate, true);
-    done();
+function isPrivateWithHostname(isPrivateCheck) {
+  return curry1(function (hostname, done) {
+    isPrivate(hostname, function (err, _isPrivate) {
+      t.strictEqual(err, null);
+      t.strictEqual(_isPrivate, isPrivateCheck);
+      done();
+    });
   });
-});
+}
 
-var shouldNotBePrivate = curry1(function (hostname, done) {
-  isPrivate(hostname, function (err, isPrivate) {
-    t.strictEqual(err, null);
-    t.strictEqual(isPrivate, false);
-    done();
-  });
-});
-
+var shouldBePrivate = isPrivateWithHostname(true);
+var shouldNotBePrivate = isPrivateWithHostname(false);
 
 describe('isPrivate', function () {
   ['0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net', '127.0.0.1'].forEach(function (hostname) {
     it('should consider ' + hostname + ' private', shouldBePrivate(hostname));
   });
 
-  ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io', '8.8.8.8'].forEach(function (hostname) {
+  ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io', '8.8.8.8', '140.142.123.62'].forEach(function (hostname) {
     it('should not consider ' + hostname + ' private', shouldNotBePrivate(hostname));
+  });
+
+  describe('when passing ip addresses', function () {
+    var oldLookup = _.noop;
+    var dns = require('dns');
+
+    beforeEach(function () {
+      oldLookup = dns.lookup;
+      dns.lookup = function () {
+        throw new Error('should not be called');
+      };
+    });
+
+    afterEach(function () {
+      dns.lookup = oldLookup;
+    });
+
+    ['8.8.8.8', '140.142.123.62'].forEach(function (hostname) {
+      it('should not consider ' + hostname + ' private', shouldNotBePrivate(hostname));
+    });
   });
 });
 
