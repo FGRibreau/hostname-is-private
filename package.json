@@ -24,10 +24,10 @@
   },
   "homepage": "https://github.com/FGRibreau/hostname-is-private",
   "dependencies": {
-    "ip": "^0.3.3",
+    "ip": "1.x.x",
     "isipaddress": "0.0.2",
-    "lodash": "3.*.*",
-    "public-ip": "^1.0.2"
+    "lodash": "3.x.x",
+    "public-ip": "1.x.x"
   },
   "devDependencies": {
     "chai": "^2.2.0",
