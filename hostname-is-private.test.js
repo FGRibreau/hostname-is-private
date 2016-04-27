@@ -10,7 +10,12 @@ var isPrivateIncludingPublicIp = require('./').isPrivateIncludingPublicIp;
 var isPrivateWithHostname = _.curry(function (isPrivateCheck, shouldYieldError) {
   return curry1(function (hostname, done) {
     isPrivate(hostname, function (err, _isPrivate) {
-      t.strictEqual(err ? err.toString() : err, shouldYieldError);
+      if(!err){
+        t.strictEqual(err, shouldYieldError);
+      } else {
+        t.include(err.toString(), shouldYieldError);
+      }
+      
       t.strictEqual(_isPrivate, isPrivateCheck);
       done();
     });
