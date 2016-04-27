@@ -7,26 +7,37 @@ var publicIp = require('public-ip');
 var isPrivate = require('./').isPrivate;
 var isPrivateIncludingPublicIp = require('./').isPrivateIncludingPublicIp;
 
-function isPrivateWithHostname(isPrivateCheck) {
+var isPrivateWithHostname = _.curry(function (isPrivateCheck, shouldYieldError) {
   return curry1(function (hostname, done) {
     isPrivate(hostname, function (err, _isPrivate) {
-      t.strictEqual(err, null);
+      t.strictEqual(err ? err.toString() : err, shouldYieldError);
       t.strictEqual(_isPrivate, isPrivateCheck);
       done();
     });
   });
-}
+});
 
-var shouldBePrivate = isPrivateWithHostname(true);
-var shouldNotBePrivate = isPrivateWithHostname(false);
+var shouldBePrivate = isPrivateWithHostname(true, null);
+var shouldNotBePrivate = isPrivateWithHostname(false, null);
+var shouldNotBeAbleToResolve = isPrivateWithHostname(undefined);
 
 describe('isPrivate', function () {
-  ['0.0.0.0.xip.io', '127.0.0.1.xip.io', 'dbcontent.cloudapp.net', '127.0.0.1'].forEach(function (hostname) {
+  ['0.0.0.0.xip.io', '192.168.10.8', '127.0.0.1.xip.io', '10.0.0.45', 'dbcontent.cloudapp.net', '127.0.0.1'].forEach(function (hostname) {
     it('should consider ' + hostname + ' private', shouldBePrivate(hostname));
   });
 
   ['redisgreen.net', 'redsmin.com', 'redislabs.com', 'openredis.com', '8.8.8.8.xip.io', '8.8.8.8', '140.142.123.62'].forEach(function (hostname) {
     it('should not consider ' + hostname + ' private', shouldNotBePrivate(hostname));
+  });
+
+  [{
+    hostname: 'plop.use1.cache.amazonaws.com',
+    err: 'Error: getaddrinfo ENOTFOUND plop.use1.cache.amazonaws.com'
+  }, {
+    hostname: 'plop.plop.0001.plop.cache.amazonaws.com',
+    err: 'Error: getaddrinfo ENOTFOUND plop.plop.0001.plop.cache.amazonaws.com'
+  }].forEach(function (test) {
+    it('should not be able to resolve ' + test.hostname, shouldNotBeAbleToResolve(test.err)(test.hostname));
   });
 
   describe('when passing ip addresses', function () {
