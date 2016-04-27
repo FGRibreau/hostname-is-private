@@ -15,7 +15,7 @@ var isPrivateWithHostname = _.curry(function (isPrivateCheck, shouldYieldError) 
       } else {
         t.include(err.toString(), shouldYieldError);
       }
-      
+
       t.strictEqual(_isPrivate, isPrivateCheck);
       done();
     });
@@ -37,10 +37,10 @@ describe('isPrivate', function () {
 
   [{
     hostname: 'plop.use1.cache.amazonaws.com',
-    err: 'Error: getaddrinfo ENOTFOUND plop.use1.cache.amazonaws.com'
+    err: 'Error: getaddrinfo ENOTFOUND'
   }, {
     hostname: 'plop.plop.0001.plop.cache.amazonaws.com',
-    err: 'Error: getaddrinfo ENOTFOUND plop.plop.0001.plop.cache.amazonaws.com'
+    err: 'Error: getaddrinfo ENOTFOUND'
   }].forEach(function (test) {
     it('should not be able to resolve ' + test.hostname, shouldNotBeAbleToResolve(test.err)(test.hostname));
   });
